@@ -112,7 +112,7 @@
     const backgroundImage = new Image();
 
     // Canva 證書底圖檔名
-    backgroundImage.src = "0609certificate-bg.png";
+    backgroundImage.src = "certificate-bg.png";
 
     // A4 橫式，約 300 DPI
     canvas.width = 3508;
@@ -123,7 +123,7 @@
     };
 
     backgroundImage.onerror = function () {
-      alert("找不到 0609certificate-bg.png，請確認圖片和 index.html 放在同一個資料夾。");
+      alert("找不到 certificate-bg.png，請確認圖片和 index.html 放在同一個資料夾。");
     };
 
     function drawCertificate() {
