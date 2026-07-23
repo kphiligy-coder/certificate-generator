@@ -2,10 +2,18 @@
 <html lang="zh-Hant">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>證書產生器</title>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>研習證書產生器</title>
+
+  <!-- PDF 產生工具 -->
+  <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js">
+  </script>
 
   <style>
     * {
@@ -15,9 +23,13 @@
     body {
       margin: 0;
       padding: 24px 16px 48px;
-      font-family: "Microsoft JhengHei", "PingFang TC", sans-serif;
+      font-family:
+        "Microsoft JhengHei",
+        "PingFang TC",
+        Arial,
+        sans-serif;
       background: #f3f4f6;
-      color: #222;
+      color: #222222;
       text-align: center;
     }
 
@@ -37,7 +49,7 @@
 
     .description {
       margin-bottom: 20px;
-      color: #555;
+      color: #555555;
       line-height: 1.7;
     }
 
@@ -47,7 +59,7 @@
       padding: 13px 15px;
       font-size: 22px;
       text-align: center;
-      border: 1px solid #aaa;
+      border: 1px solid #aaaaaa;
       border-radius: 8px;
       outline: none;
     }
@@ -73,7 +85,7 @@
       padding: 13px 28px;
       font-size: 18px;
       font-weight: bold;
-      color: white;
+      color: #ffffff;
       background: #2457a7;
       border: none;
       border-radius: 8px;
@@ -91,7 +103,7 @@
 
     .notice {
       margin: 15px 0 0;
-      color: #777;
+      color: #777777;
       font-size: 14px;
       line-height: 1.6;
     }
@@ -113,7 +125,7 @@
       max-width: 700px;
       margin: 0 auto;
       overflow: hidden;
-      background: white;
+      background: #ffffff;
       box-shadow: 0 3px 18px rgba(0, 0, 0, 0.16);
     }
 
@@ -121,7 +133,7 @@
       display: block;
       width: 100%;
       height: auto;
-      background: white;
+      background: #ffffff;
     }
 
     @media (max-width: 600px) {
@@ -149,12 +161,15 @@
 </head>
 
 <body>
+
   <main>
     <section class="form-box">
-      <h1>證書產生器</h1>
+
+      <h1>研習證書產生器</h1>
 
       <p class="description">
-        請輸入要顯示在證書上的姓名，確認預覽無誤後下載。
+        請輸入要顯示在證書上的姓名，
+        確認預覽無誤後下載。
       </p>
 
       <input
@@ -167,12 +182,18 @@
 
       <div class="confirm-row">
         <label>
-          <input id="confirmCheckbox" type="checkbox">
+          <input
+            id="confirmCheckbox"
+            type="checkbox"
+          >
           我已確認姓名輸入正確
         </label>
       </div>
 
-      <button id="downloadButton" type="button">
+      <button
+        id="downloadButton"
+        type="button"
+      >
         下載 A4 PDF 證書
       </button>
 
@@ -181,10 +202,16 @@
         請先確認證書預覽，再進行下載。
       </p>
 
-      <div id="statusMessage" class="status"></div>
+      <div
+        id="statusMessage"
+        class="status"
+      ></div>
+
     </section>
 
-    <h2 class="preview-title">證書預覽</h2>
+    <h2 class="preview-title">
+      證書預覽
+    </h2>
 
     <section class="preview-wrapper">
       <canvas id="certificateCanvas"></canvas>
@@ -192,20 +219,36 @@
   </main>
 
   <script>
-    const canvas = document.getElementById("certificateCanvas");
-    const context = canvas.getContext("2d");
+    const canvas =
+      document.getElementById("certificateCanvas");
 
-    const nameInput = document.getElementById("nameInput");
-    const confirmCheckbox = document.getElementById("confirmCheckbox");
-    const downloadButton = document.getElementById("downloadButton");
-    const statusMessage = document.getElementById("statusMessage");
+    const context =
+      canvas.getContext("2d");
+
+    const nameInput =
+      document.getElementById("nameInput");
+
+    const confirmCheckbox =
+      document.getElementById("confirmCheckbox");
+
+    const downloadButton =
+      document.getElementById("downloadButton");
+
+    const statusMessage =
+      document.getElementById("statusMessage");
 
     const backgroundImage = new Image();
 
-    // 這裡請維持你目前真正能顯示的檔名
-    backgroundImage.src = "certificate-bg.png.png";
+    /*
+      你的 GitHub 底圖檔名。
+      這個檔案必須和 index.html 放在同一層。
+    */
+    backgroundImage.src =
+      "certificate-bg.png.png";
 
-    // 直式 A4，約 300 DPI
+    /*
+      直式 A4，約 300 DPI。
+    */
     canvas.width = 2480;
     canvas.height = 3508;
 
@@ -219,19 +262,38 @@
 
     backgroundImage.onerror = function () {
       backgroundLoaded = false;
-      statusMessage.textContent = "找不到證書底圖，請確認圖片檔名及上傳位置。";
+
+      statusMessage.style.color = "#b42318";
+
+      statusMessage.textContent =
+        "找不到證書底圖，請確認圖片檔名及上傳位置。";
+
       drawErrorCanvas();
     };
 
     function drawErrorCanvas() {
-      context.clearRect(0, 0, canvas.width, canvas.height);
+      context.clearRect(
+        0,
+        0,
+        canvas.width,
+        canvas.height
+      );
+
       context.fillStyle = "#ffffff";
-      context.fillRect(0, 0, canvas.width, canvas.height);
+
+      context.fillRect(
+        0,
+        0,
+        canvas.width,
+        canvas.height
+      );
 
       context.fillStyle = "#b42318";
       context.textAlign = "center";
       context.textBaseline = "middle";
-      context.font = 'bold 60px "Microsoft JhengHei", sans-serif';
+
+      context.font =
+        'bold 60px "Microsoft JhengHei", sans-serif';
 
       context.fillText(
         "尚未讀取到證書底圖",
@@ -241,29 +303,37 @@
     }
 
     function getDisplayName() {
-      const enteredName = nameInput.value.replace(/\s+/g, " ").trim();
+      const enteredName = nameInput.value
+        .replace(/\s+/g, " ")
+        .trim();
+
       return enteredName || "姓名預覽";
     }
 
+    /*
+      控制使用者輸入姓名的字體大小。
+
+      一般 2～4 個中文字會使用最後的 70 px。
+      姓名越長，系統會自動縮小。
+    */
     function getNameFontSize(name) {
-      // 原本大約 180 左右，這裡縮小約 3 倍
       if (name.length >= 13) {
-        return 32;
+        return 40;
       }
 
       if (name.length >= 10) {
-        return 38;
+        return 46;
       }
 
       if (name.length >= 8) {
-        return 44;
-      }
-
-      if (name.length >= 6) {
         return 52;
       }
 
-      return 62;
+      if (name.length >= 6) {
+        return 60;
+      }
+
+      return 70;
     }
 
     function drawCertificate() {
@@ -274,7 +344,12 @@
       const name = getDisplayName();
       const fontSize = getNameFontSize(name);
 
-      context.clearRect(0, 0, canvas.width, canvas.height);
+      context.clearRect(
+        0,
+        0,
+        canvas.width,
+        canvas.height
+      );
 
       context.drawImage(
         backgroundImage,
@@ -288,16 +363,32 @@
 
       context.textAlign = "center";
       context.textBaseline = "middle";
-      context.fillStyle = "#222222";
+
+      /*
+        姓名顏色。
+        目前設定為深藍黑色。
+      */
+      context.fillStyle = "#0b1f33";
 
       context.font =
-        `bold ${fontSize}px "Microsoft JhengHei", "PingFang TC", sans-serif`;
+        `bold ${fontSize}px ` +
+        `"Microsoft JhengHei", ` +
+        `"PingFang TC", ` +
+        `sans-serif`;
 
-      // 名字位置：移到中上方那條線附近
+      /*
+        使用者輸入的姓名位置。
+
+        canvas.width / 2：水平置中
+        1280：姓名的上下位置
+
+        數字越小，姓名越往上。
+        數字越大，姓名越往下。
+      */
       context.fillText(
         name,
         canvas.width / 2,
-        1410
+        1280
       );
 
       context.restore();
@@ -308,91 +399,150 @@
 
       if (!name) {
         statusMessage.style.color = "#b42318";
-        statusMessage.textContent = "請先輸入姓名。";
+
+        statusMessage.textContent =
+          "請先輸入姓名。";
+
         nameInput.focus();
+
         return false;
       }
 
       if (name.length > 20) {
         statusMessage.style.color = "#b42318";
-        statusMessage.textContent = "姓名字數過長，請重新確認。";
+
+        statusMessage.textContent =
+          "姓名字數過長，請重新確認。";
+
         nameInput.focus();
+
         return false;
       }
 
       if (!confirmCheckbox.checked) {
         statusMessage.style.color = "#b42318";
-        statusMessage.textContent = "請勾選「我已確認姓名輸入正確」。";
+
+        statusMessage.textContent =
+          "請勾選「我已確認姓名輸入正確」。";
+
         return false;
       }
 
       if (!backgroundLoaded) {
         statusMessage.style.color = "#b42318";
-        statusMessage.textContent = "證書底圖尚未載入，暫時無法下載。";
+
+        statusMessage.textContent =
+          "證書底圖尚未載入，暫時無法下載。";
+
         return false;
       }
 
       statusMessage.textContent = "";
+
       return true;
     }
 
-    nameInput.addEventListener("input", function () {
-      confirmCheckbox.checked = false;
-      statusMessage.textContent = "";
-      drawCertificate();
-    });
-
-    confirmCheckbox.addEventListener("change", function () {
-      statusMessage.textContent = "";
-    });
-
-    downloadButton.addEventListener("click", function () {
-      if (!validateName()) {
-        return;
+    nameInput.addEventListener(
+      "input",
+      function () {
+        confirmCheckbox.checked = false;
+        statusMessage.textContent = "";
+        drawCertificate();
       }
+    );
 
-      drawCertificate();
-
-      const name = nameInput.value.trim();
-
-      downloadButton.disabled = true;
-      downloadButton.textContent = "正在產生 PDF…";
-
-      try {
-        const imageData = canvas.toDataURL("image/jpeg", 0.98);
-        const { jsPDF } = window.jspdf;
-
-        const pdf = new jsPDF({
-          orientation: "portrait",
-          unit: "mm",
-          format: "a4",
-          compress: true
-        });
-
-        pdf.addImage(
-          imageData,
-          "JPEG",
-          0,
-          0,
-          210,
-          297
-        );
-
-        const safeFileName = name.replace(/[\\/:*?"<>|]/g, "_");
-
-        pdf.save(`${safeFileName}_證書.pdf`);
-
-        statusMessage.style.color = "#18794e";
-        statusMessage.textContent = "證書已產生，請查看瀏覽器的下載項目。";
-      } catch (error) {
-        console.error(error);
-        statusMessage.style.color = "#b42318";
-        statusMessage.textContent = "PDF 產生失敗，請重新整理後再試一次。";
-      } finally {
-        downloadButton.disabled = false;
-        downloadButton.textContent = "下載 A4 PDF 證書";
+    confirmCheckbox.addEventListener(
+      "change",
+      function () {
+        statusMessage.textContent = "";
       }
-    });
+    );
+
+    downloadButton.addEventListener(
+      "click",
+      function () {
+        if (!validateName()) {
+          return;
+        }
+
+        drawCertificate();
+
+        const name =
+          nameInput.value.trim();
+
+        downloadButton.disabled = true;
+
+        downloadButton.textContent =
+          "正在產生 PDF…";
+
+        try {
+          const imageData =
+            canvas.toDataURL(
+              "image/jpeg",
+              0.98
+            );
+
+          const { jsPDF } =
+            window.jspdf;
+
+          /*
+            直式 A4 PDF。
+          */
+          const pdf = new jsPDF({
+            orientation: "portrait",
+            unit: "mm",
+            format: "a4",
+            compress: true
+          });
+
+          /*
+            直式 A4 尺寸：
+            寬 210 mm
+            高 297 mm
+          */
+          pdf.addImage(
+            imageData,
+            "JPEG",
+            0,
+            0,
+            210,
+            297
+          );
+
+          const safeFileName =
+            name.replace(
+              /[\\/:*?"<>|]/g,
+              "_"
+            );
+
+          pdf.save(
+            `${safeFileName}_研習證書.pdf`
+          );
+
+          statusMessage.style.color =
+            "#18794e";
+
+          statusMessage.textContent =
+            "證書已產生，請查看瀏覽器的下載項目。";
+
+        } catch (error) {
+          console.error(error);
+
+          statusMessage.style.color =
+            "#b42318";
+
+          statusMessage.textContent =
+            "PDF 產生失敗，請重新整理後再試一次。";
+
+        } finally {
+          downloadButton.disabled = false;
+
+          downloadButton.textContent =
+            "下載 A4 PDF 證書";
+        }
+      }
+    );
   </script>
+
 </body>
 </html>
