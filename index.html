@@ -47,9 +47,28 @@
     }
 
     .description {
-      margin-bottom: 20px;
+      margin: 0 0 18px;
       color: #555555;
       line-height: 1.7;
+    }
+
+    .attendance-notice {
+      max-width: 600px;
+      margin: 0 auto 22px;
+      padding: 15px 18px;
+      color: #57460a;
+      background: #fff8dc;
+      border: 1px solid #e5ce78;
+      border-left: 5px solid #c99a14;
+      border-radius: 8px;
+      text-align: left;
+      font-size: 15px;
+      line-height: 1.75;
+    }
+
+    .attendance-notice strong {
+      color: #493800;
+      font-size: 16px;
     }
 
     #nameInput {
@@ -148,6 +167,11 @@
         font-size: 25px;
       }
 
+      .attendance-notice {
+        padding: 13px 14px;
+        font-size: 14px;
+      }
+
       #nameInput {
         font-size: 20px;
       }
@@ -171,12 +195,19 @@
         確認預覽無誤後下載。
       </p>
 
+      <div class="attendance-notice">
+        <strong>提醒您：</strong>
+        本證書僅提供實際到場並完成簽到的參加者下載。<br>
+        主辦單位會依現場簽到紀錄確認資格；若未出席或未完成簽到，
+        下載的證書將不具效力。
+      </div>
+
       <input
         id="nameInput"
         type="text"
         maxlength="20"
         autocomplete="name"
-        placeholder="例如：曾爆班 先生"
+        placeholder="例如：陳家麒 先生"
       >
 
       <div class="confirm-row">
@@ -185,7 +216,7 @@
             id="confirmCheckbox"
             type="checkbox"
           >
-          我已確認姓名輸入正確
+          我已確認姓名輸入正確，且本人已實際出席並完成簽到
         </label>
       </div>
 
@@ -386,7 +417,7 @@
       if (!confirmCheckbox.checked) {
         statusMessage.style.color = "#b42318";
         statusMessage.textContent =
-          "請勾選「我已確認姓名輸入正確」。";
+          "請確認姓名正確，且本人已實際出席並完成簽到。";
         return false;
       }
 
