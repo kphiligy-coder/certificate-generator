@@ -176,7 +176,7 @@
         type="text"
         maxlength="20"
         autocomplete="name"
-        placeholder="例如：王小明"
+        placeholder="例如：陳家麒 先生"
       >
 
       <div class="confirm-row">
@@ -303,23 +303,22 @@
     }
 
     function getNameFontSize(name) {
-      if (name.length >= 13) {
-        return 47;
+      const actualLength =
+        name.replace(/\s/g, "").length;
+
+      if (actualLength >= 12) {
+        return 72;
       }
 
-      if (name.length >= 10) {
-        return 53;
+      if (actualLength >= 9) {
+        return 82;
       }
 
-      if (name.length >= 8) {
-        return 59;
+      if (actualLength >= 7) {
+        return 92;
       }
 
-      if (name.length >= 6) {
-        return 67;
-      }
-
-      return 77;
+      return 105;
     }
 
     function drawCertificate() {
@@ -357,10 +356,6 @@
         `"PingFang TC", ` +
         `sans-serif`;
 
-      /*
-        原本位置為 1292。
-        往下移動約 0.5 公分後改為 1351。
-      */
       context.fillText(
         name,
         canvas.width / 2,
