@@ -304,22 +304,22 @@
 
     function getNameFontSize(name) {
       if (name.length >= 13) {
-        return 43;
+        return 47;
       }
 
       if (name.length >= 10) {
-        return 49;
+        return 53;
       }
 
       if (name.length >= 8) {
-        return 55;
+        return 59;
       }
 
       if (name.length >= 6) {
-        return 63;
+        return 67;
       }
 
-      return 73;
+      return 77;
     }
 
     function drawCertificate() {
@@ -357,10 +357,14 @@
         `"PingFang TC", ` +
         `sans-serif`;
 
+      /*
+        原本位置為 1292。
+        往下移動約 0.5 公分後改為 1351。
+      */
       context.fillText(
         name,
         canvas.width / 2,
-        1292
+        1351
       );
 
       context.restore();
