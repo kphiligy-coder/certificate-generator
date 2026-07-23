@@ -2,18 +2,10 @@
 <html lang="zh-Hant">
 <head>
   <meta charset="UTF-8">
-
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
-  >
-
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>證書產生器</title>
 
-  <!-- PDF 產生工具 -->
-  <script
-    src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js">
-  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
   <style>
     * {
@@ -118,7 +110,7 @@
 
     .preview-wrapper {
       width: 100%;
-      max-width: 1100px;
+      max-width: 700px;
       margin: 0 auto;
       overflow: hidden;
       background: white;
@@ -157,7 +149,6 @@
 </head>
 
 <body>
-
   <main>
     <section class="form-box">
       <h1>證書產生器</h1>
@@ -205,29 +196,18 @@
     const context = canvas.getContext("2d");
 
     const nameInput = document.getElementById("nameInput");
-    const confirmCheckbox =
-      document.getElementById("confirmCheckbox");
-
-    const downloadButton =
-      document.getElementById("downloadButton");
-
-    const statusMessage =
-      document.getElementById("statusMessage");
+    const confirmCheckbox = document.getElementById("confirmCheckbox");
+    const downloadButton = document.getElementById("downloadButton");
+    const statusMessage = document.getElementById("statusMessage");
 
     const backgroundImage = new Image();
 
-    /*
-      請確認 GitHub 裡的底圖名稱是 certificate-bg.png.png。
-      如果不是，請把下面的檔名改成你的實際檔名。
-    */
+    // 這裡請維持你目前真正能顯示的檔名
     backgroundImage.src = "certificate-bg.png.png";
 
-    /*
-      A4 橫式，約 300 DPI：
-      3508 × 2480 px
-    */
-    canvas.width = 3508;
-    canvas.height = 2480;
+    // 直式 A4，約 300 DPI
+    canvas.width = 2480;
+    canvas.height = 3508;
 
     let backgroundLoaded = false;
 
@@ -239,34 +219,19 @@
 
     backgroundImage.onerror = function () {
       backgroundLoaded = false;
-
-      statusMessage.textContent =
-        "找不到證書底圖，請確認圖片檔名及上傳位置。";
-
+      statusMessage.textContent = "找不到證書底圖，請確認圖片檔名及上傳位置。";
       drawErrorCanvas();
     };
 
     function drawErrorCanvas() {
-      context.clearRect(
-        0,
-        0,
-        canvas.width,
-        canvas.height
-      );
-
+      context.clearRect(0, 0, canvas.width, canvas.height);
       context.fillStyle = "#ffffff";
-      context.fillRect(
-        0,
-        0,
-        canvas.width,
-        canvas.height
-      );
+      context.fillRect(0, 0, canvas.width, canvas.height);
 
       context.fillStyle = "#b42318";
       context.textAlign = "center";
       context.textBaseline = "middle";
-      context.font =
-        'bold 90px "Microsoft JhengHei", sans-serif';
+      context.font = 'bold 60px "Microsoft JhengHei", sans-serif';
 
       context.fillText(
         "尚未讀取到證書底圖",
@@ -276,35 +241,29 @@
     }
 
     function getDisplayName() {
-      const enteredName = nameInput.value
-        .replace(/\s+/g, " ")
-        .trim();
-
+      const enteredName = nameInput.value.replace(/\s+/g, " ").trim();
       return enteredName || "姓名預覽";
     }
 
     function getNameFontSize(name) {
-      /*
-        依姓名長度自動縮小。
-        也可依實際底圖再調整。
-      */
+      // 原本大約 180 左右，這裡縮小約 3 倍
       if (name.length >= 13) {
-        return 100;
+        return 32;
       }
 
       if (name.length >= 10) {
-        return 120;
+        return 38;
       }
 
       if (name.length >= 8) {
-        return 140;
+        return 44;
       }
 
       if (name.length >= 6) {
-        return 160;
+        return 52;
       }
 
-      return 185;
+      return 62;
     }
 
     function drawCertificate() {
@@ -315,12 +274,7 @@
       const name = getDisplayName();
       const fontSize = getNameFontSize(name);
 
-      context.clearRect(
-        0,
-        0,
-        canvas.width,
-        canvas.height
-      );
+      context.clearRect(0, 0, canvas.width, canvas.height);
 
       context.drawImage(
         backgroundImage,
@@ -334,32 +288,16 @@
 
       context.textAlign = "center";
       context.textBaseline = "middle";
-
-      /*
-        姓名文字顏色。
-        可改成其他色碼，例如：
-        #000000 黑色
-        #17365D 深藍色
-        #7A1F1F 暗紅色
-      */
       context.fillStyle = "#222222";
 
       context.font =
-        `bold ${fontSize}px "Microsoft JhengHei", ` +
-        `"PingFang TC", sans-serif`;
+        `bold ${fontSize}px "Microsoft JhengHei", "PingFang TC", sans-serif`;
 
-      /*
-        姓名位置：
-        canvas.width / 2 = 水平正中央
-        1120 = 上下位置
-
-        姓名太高：把 1120 加大，例如 1200
-        姓名太低：把 1120 改小，例如 1030
-      */
+      // 名字位置：移到中上方那條線附近
       context.fillText(
         name,
         canvas.width / 2,
-        1120
+        1410
       );
 
       context.restore();
@@ -369,30 +307,28 @@
       const name = nameInput.value.trim();
 
       if (!name) {
+        statusMessage.style.color = "#b42318";
         statusMessage.textContent = "請先輸入姓名。";
         nameInput.focus();
         return false;
       }
 
       if (name.length > 20) {
-        statusMessage.textContent =
-          "姓名字數過長，請重新確認。";
-
+        statusMessage.style.color = "#b42318";
+        statusMessage.textContent = "姓名字數過長，請重新確認。";
         nameInput.focus();
         return false;
       }
 
       if (!confirmCheckbox.checked) {
-        statusMessage.textContent =
-          "請勾選「我已確認姓名輸入正確」。";
-
+        statusMessage.style.color = "#b42318";
+        statusMessage.textContent = "請勾選「我已確認姓名輸入正確」。";
         return false;
       }
 
       if (!backgroundLoaded) {
-        statusMessage.textContent =
-          "證書底圖尚未載入，暫時無法下載。";
-
+        statusMessage.style.color = "#b42318";
+        statusMessage.textContent = "證書底圖尚未載入，暫時無法下載。";
         return false;
       }
 
@@ -423,13 +359,11 @@
       downloadButton.textContent = "正在產生 PDF…";
 
       try {
-        const imageData =
-          canvas.toDataURL("image/jpeg", 0.98);
-
+        const imageData = canvas.toDataURL("image/jpeg", 0.98);
         const { jsPDF } = window.jspdf;
 
         const pdf = new jsPDF({
-          orientation: "landscape",
+          orientation: "portrait",
           unit: "mm",
           format: "a4",
           compress: true
@@ -440,35 +374,25 @@
           "JPEG",
           0,
           0,
-          297,
-          210
+          210,
+          297
         );
 
-        const safeFileName = name.replace(
-          /[\\/:*?"<>|]/g,
-          "_"
-        );
+        const safeFileName = name.replace(/[\\/:*?"<>|]/g, "_");
 
-        pdf.save(
-          `${safeFileName}_證書.pdf`
-        );
+        pdf.save(`${safeFileName}_證書.pdf`);
 
         statusMessage.style.color = "#18794e";
-        statusMessage.textContent =
-          "證書已產生，請查看瀏覽器的下載項目。";
+        statusMessage.textContent = "證書已產生，請查看瀏覽器的下載項目。";
       } catch (error) {
         console.error(error);
-
         statusMessage.style.color = "#b42318";
-        statusMessage.textContent =
-          "PDF 產生失敗，請重新整理後再試一次。";
+        statusMessage.textContent = "PDF 產生失敗，請重新整理後再試一次。";
       } finally {
         downloadButton.disabled = false;
-        downloadButton.textContent =
-          "下載 A4 PDF 證書";
+        downloadButton.textContent = "下載 A4 PDF 證書";
       }
     });
   </script>
-
 </body>
 </html>
