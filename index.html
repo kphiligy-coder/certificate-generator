@@ -10,7 +10,6 @@
 
   <title>研習證書產生器</title>
 
-  <!-- PDF 產生工具 -->
   <script
     src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js">
   </script>
@@ -239,16 +238,9 @@
 
     const backgroundImage = new Image();
 
-    /*
-      你的 GitHub 底圖檔名。
-      這個檔案必須和 index.html 放在同一層。
-    */
     backgroundImage.src =
       "certificate-bg.png.png";
 
-    /*
-      直式 A4，約 300 DPI。
-    */
     canvas.width = 2480;
     canvas.height = 3508;
 
@@ -310,30 +302,24 @@
       return enteredName || "姓名預覽";
     }
 
-    /*
-      控制使用者輸入姓名的字體大小。
-
-      一般 2～4 個中文字會使用最後的 70 px。
-      姓名越長，系統會自動縮小。
-    */
     function getNameFontSize(name) {
       if (name.length >= 13) {
-        return 40;
+        return 43;
       }
 
       if (name.length >= 10) {
-        return 46;
+        return 49;
       }
 
       if (name.length >= 8) {
-        return 52;
+        return 55;
       }
 
       if (name.length >= 6) {
-        return 60;
+        return 63;
       }
 
-      return 70;
+      return 73;
     }
 
     function drawCertificate() {
@@ -363,11 +349,6 @@
 
       context.textAlign = "center";
       context.textBaseline = "middle";
-
-      /*
-        姓名顏色。
-        目前設定為深藍黑色。
-      */
       context.fillStyle = "#0b1f33";
 
       context.font =
@@ -376,19 +357,10 @@
         `"PingFang TC", ` +
         `sans-serif`;
 
-      /*
-        使用者輸入的姓名位置。
-
-        canvas.width / 2：水平置中
-        1280：姓名的上下位置
-
-        數字越小，姓名越往上。
-        數字越大，姓名越往下。
-      */
       context.fillText(
         name,
         canvas.width / 2,
-        1280
+        1292
       );
 
       context.restore();
@@ -399,46 +371,34 @@
 
       if (!name) {
         statusMessage.style.color = "#b42318";
-
-        statusMessage.textContent =
-          "請先輸入姓名。";
-
+        statusMessage.textContent = "請先輸入姓名。";
         nameInput.focus();
-
         return false;
       }
 
       if (name.length > 20) {
         statusMessage.style.color = "#b42318";
-
         statusMessage.textContent =
           "姓名字數過長，請重新確認。";
-
         nameInput.focus();
-
         return false;
       }
 
       if (!confirmCheckbox.checked) {
         statusMessage.style.color = "#b42318";
-
         statusMessage.textContent =
           "請勾選「我已確認姓名輸入正確」。";
-
         return false;
       }
 
       if (!backgroundLoaded) {
         statusMessage.style.color = "#b42318";
-
         statusMessage.textContent =
           "證書底圖尚未載入，暫時無法下載。";
-
         return false;
       }
 
       statusMessage.textContent = "";
-
       return true;
     }
 
@@ -471,7 +431,6 @@
           nameInput.value.trim();
 
         downloadButton.disabled = true;
-
         downloadButton.textContent =
           "正在產生 PDF…";
 
@@ -485,9 +444,6 @@
           const { jsPDF } =
             window.jspdf;
 
-          /*
-            直式 A4 PDF。
-          */
           const pdf = new jsPDF({
             orientation: "portrait",
             unit: "mm",
@@ -495,11 +451,6 @@
             compress: true
           });
 
-          /*
-            直式 A4 尺寸：
-            寬 210 mm
-            高 297 mm
-          */
           pdf.addImage(
             imageData,
             "JPEG",
